@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grow a Garden 펫 무료 증정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Modern Dark Theme */
+        :root {
+            --bg-primary: #000000;
+            --bg-card: rgba(42, 42, 42, 0.95);
+            --accent-blue: #00d4ff;
+            --accent-red: #ff6b6b;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --border-color: rgba(68, 68, 68, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-primary) !important;
+            color: var(--text-primary) !important;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(26, 26, 26, 0.95) !important;
+            border-bottom: 1px solid rgba(68, 68, 68, 0.5);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--accent-blue) !important;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-blue) !important;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin: 3rem 0 2rem 0;
+            color: var(--accent-blue);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .welcome-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .pet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .pet-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.25);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .pet-image-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .pet-image {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: rgba(20, 20, 20, 0.9);
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .pet-card:hover .pet-image {
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .rarity-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 14px;
+            border-radius: 18px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            backdrop-filter: blur(8px);
+            z-index: 2;
+        }
+
+        .rarity-일반 {
+            background: rgba(108, 117, 125, 0.9);
+            color: white;
+            border: 1px solid rgba(108, 117, 125, 0.5);
+        }
+
+        .rarity-희귀 {
+            background: rgba(0, 212, 255, 0.9);
+            color: white;
+            border: 1px solid rgba(0, 212, 255, 0.5);
+        }
+
+        .rarity-전설 {
+            background: rgba(255, 107, 107, 0.9);
+            color: white;
+            border: 1px solid rgba(255, 107, 107, 0.5);
+        }
+
+        .pet-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 15px 0 10px 0;
+        }
+
+        .pet-stock {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .btn-modern {
+            background: linear-gradient(135deg, #00d4ff 0%, #0088cc 100%);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ff6b6b 0%, #cc3333 100%);
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.5);
+        }
+
+        .contact-section {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            margin: 3rem auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .contact-info p {
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            background: rgba(26, 26, 26, 0.95);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-seedling me-2"></i>Grow a Garden
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pets">펫 신청</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">연락하기</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" id="home">
+        <h1 class="main-title">Grow a Garden 펫 무료 증정</h1>
+        <p class="welcome-text">희귀하고 특별한 펫들을 무료로 받아가세요! 아래에서 원하는 펫을 선택하여 신청할 수 있습니다.</p>
+
+        <div class="pet-grid" id="pet-gallery">
+            <!-- Pets will be loaded here -->
+        </div>
+    </div>
+
+    <div class="contact-section" id="contact">
+        <h2>연락하기</h2>
+        <p>펫 신청이나 문의사항이 있으시면 아래 방법으로 연락해주세요:</p>
+        <div class="contact-info">
+            <p><i class="fab fa-discord me-2"></i><strong>Discord:</strong> 여기에_디스코드_아이디_입력</p>
+            <p><i class="fab fa-roblox me-2"></i><strong>Roblox:</strong> 여기에_로블록스_아이디_입력</p>
+            <p><i class="fas fa-envelope me-2"></i><strong>이메일:</strong> 여기에_이메일_입력</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Grow a Garden 펫 무료 증정. 모든 권리 보유.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Pet data matching the Korean names from your original image
+        const pets = [
+            {name: 'Butterfly', stock: 50, image: 'https://via.placeholder.com/160x160/2a2a2a/00d4ff?text=Butterfly', rarity: '일반'},
+            {name: 'Dragonfly', stock: 30, image: 'https://via.placeholder.com/160x160/2a2a2a/00d4ff?text=Dragonfly', rarity: '일반'},
+            {name: 'Queen Bee', stock: 20, image: 'https://via.placeholder.com/160x160/2a2a2a/00d4ff?text=Queen+Bee', rarity: '희귀'},
+            {name: 'Disco Bee', stock: 15, image: 'https://via.placeholder.com/160x160/2a2a2a/ff6b6b?text=Disco+Bee', rarity: '희귀'},
+            {name: 'Chicken Zombie', stock: 10, image: 'https://via.placeholder.com/160x160/2a2a2a/ff6b6b?text=Chicken+Zombie', rarity: '전설'},
+            {name: 'Raccoon', stock: 25, image: 'https://via.placeholder.com/160x160/2a2a2a/00d4ff?text=Raccoon', rarity: '희귀'},
+            {name: 'Red Fox', stock: 35, image: 'https://via.placeholder.com/160x160/2a2a2a/00d4ff?text=Red+Fox', rarity: '희귀'},
+            {name: 'Octopus', stock: 40, image: 'https://via.placeholder.com/160x160/2a2a2a/ff6b6b?text=Octopus', rarity: '희귀'}
+        ];
+
+        // Load pets
+        function loadPets() {
+            const gallery = document.getElementById('pet-gallery');
+            gallery.innerHTML = '';
+            
+            pets.forEach(pet => {
+                const petCard = document.createElement('div');
+                petCard.className = 'pet-card';
+                petCard.innerHTML = `
+                    <div class="pet-image-container">
+                        <img src="${pet.image}" alt="${pet.name}" class="pet-image">
+                        <div class="rarity-badge rarity-${pet.rarity}">${pet.rarity}</div>
+                    </div>
+                    <div class="pet-info">
+                        <h5 class="pet-name">${pet.name}</h5>
+                        <p class="pet-stock">재고: ${pet.stock}개</p>
+                        <button class="btn-modern" onclick="requestPet('${pet.name}')">
+                            <i class="fas fa-gift me-2"></i>무료 신청
+                        </button>
+                        <button class="btn-modern btn-secondary" onclick="reservePet('${pet.name}')">
+                            <i class="fas fa-calendar-check me-2"></i>예약하기
+                        </button>
+                    </div>
+                `;
+                gallery.appendChild(petCard);
+            });
+        }
+
+        // Request pet function
+        function requestPet(petName) {
+            alert(`${petName} 펫 신청이 접수되었습니다! 디스코드로 연락 부탁드립니다.`);
+        }
+
+        // Reserve pet function
+        function reservePet(petName) {
+            alert(`${petName} 펫 예약이 접수되었습니다! 디스코드로 연락 부탁드립니다.`);
+        }
+
+        // Load pets when page loads
+        document.addEventListener('DOMContentLoaded', loadPets);
+    </script>
+</body>
+</html>
